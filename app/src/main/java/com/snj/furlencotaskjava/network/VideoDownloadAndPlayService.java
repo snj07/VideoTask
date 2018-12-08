@@ -7,11 +7,15 @@ import java.io.File;
 public class VideoDownloadAndPlayService {
     private static VideoStreamingServer server;
 
-    private VideoDownloadAndPlayService(VideoStreamingServer server) {
+    public VideoDownloadAndPlayService(VideoStreamingServer server) {
         this.server = server;
     }
 
-    public static VideoDownloadAndPlayService startServer(final Activity activity, String videoUrl, String pathToSaveVideo, final String ipOfServer, final VideoStreamInterface callback) {
+    public VideoDownloadAndPlayService() {
+
+    }
+
+    public VideoDownloadAndPlayService startServer(final Activity activity, String videoUrl, String pathToSaveVideo, final String ipOfServer, final VideoStreamInterface callback) {
 //        Thread t  =new Thread();
 //        t.setPriority(Thread.MAX_PRIORITY);
 //        t.start();
@@ -36,6 +40,10 @@ public class VideoDownloadAndPlayService {
         return new VideoDownloadAndPlayService(server);
     }
 
+    public static boolean isServerRunning() {
+        return server.isRunning();
+    }
+
     public void start() {
         server.start();
     }
@@ -46,5 +54,6 @@ public class VideoDownloadAndPlayService {
 
     public interface VideoStreamInterface {
         void onServerStart(String videoStreamUrl);
+
     }
 }

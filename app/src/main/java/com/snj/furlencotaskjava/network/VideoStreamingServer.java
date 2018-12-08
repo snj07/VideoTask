@@ -54,11 +54,10 @@ public class VideoStreamingServer implements Runnable {
         String url = null;
         try {
             InetAddress inet = InetAddress.getByName(ip);
+
             byte[] bytes = inet.getAddress();
             socket = new ServerSocket(port, 0, InetAddress.getByAddress(bytes));
-
-            socket.setSoTimeout(30000);
-
+            socket.setSoTimeout(0);
             port = socket.getLocalPort();
             url = "http://" + socket.getInetAddress().getHostAddress() + ":"
                     + port;
@@ -81,6 +80,7 @@ public class VideoStreamingServer implements Runnable {
      */
     public void start() {
         thread = new Thread(this);
+        thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
         isRunning = true;
     }
@@ -125,10 +125,8 @@ public class VideoStreamingServer implements Runnable {
                 processRequest(data, client);
             } catch (SocketTimeoutException e) {
                 Log.e(TAG, "No client connected, waiting for client...", e);
-                // Do nothing
             } catch (IOException e) {
                 Log.e(TAG, "Error connecting to client", e);
-                // break;
             }
         }
         Log.e(TAG, "Server interrupted or stopped. Shutting down.");
@@ -138,9 +136,9 @@ public class VideoStreamingServer implements Runnable {
      * Find byte index separating header from body.
      * It must be the last byte of the first two sequential new lines.
      **/
-    private int findHeaderEnd(final byte[] buf, int rlen) {
+    private int findHeaderEnd(final byte[] buf, int rLen) {
         int splitByte = 0;
-        while (splitByte + 3 < rlen) {
+        while (splitByte + 3 < rLen) {
             if (buf[splitByte] == '\r' && buf[splitByte + 1] == '\n'
                     && buf[splitByte + 2] == '\r' && buf[splitByte + 3] == '\n')
                 return splitByte + 4;
@@ -177,8 +175,8 @@ public class VideoStreamingServer implements Runnable {
         }
 
         // Create a BufferedReader for parsing the header.
-        ByteArrayInputStream hbis = new ByteArrayInputStream(buf, 0, rLen);
-        BufferedReader hin = new BufferedReader(new InputStreamReader(hbis));
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buf, 0, rLen);
+        BufferedReader hin = new BufferedReader(new InputStreamReader(byteArrayInputStream));
         Properties pre = new Properties();
         Properties params = new Properties();
         Properties header = new Properties();
@@ -242,7 +240,7 @@ public class VideoStreamingServer implements Runnable {
             while (isRunning) {
                 if (supportPlayWhileDownloading) {
                     // Check if data is ready
-                    while (!VideoDownloader.isDataReady()) {
+                    while (!VideoDownloader.isDataReady() && isRunning) {
                         if (VideoDownloader.dataStatus == VideoDownloader.DATA_READY) {
                             Log.i(TAG, "start reading bytes : state : Data ready");
                             break;
@@ -253,10 +251,6 @@ public class VideoStreamingServer implements Runnable {
                             Log.e(TAG, "error in reading bytes : state : Data not ready");
                         } else if (VideoDownloader.dataStatus == VideoDownloader.DATA_NOT_AVAILABLE) {
                             Log.e(TAG, "error in reading bytes : state : Data not available");
-                        }
-                        // wait for a second if data is not ready
-                        synchronized (this) {
-                            Thread.sleep(1000);
                         }
                     }
                     Log.i(TAG, "reading bytes : Data ready");
@@ -270,8 +264,9 @@ public class VideoStreamingServer implements Runnable {
                     cbRead = data.read(buff, 0, buff.length);
                     if (cbRead == -1) {
                         Log.e(TAG, "error in reading bytes");
-                        throw new IOException(
-                                "Error re-opening data source for looping.");
+//                        throw new IOException(
+//                                "Error re-opening data source for looping.");
+                        break;
                     }
                 }
                 client.getOutputStream().write(buff, 0, cbRead);
@@ -299,7 +294,9 @@ public class VideoStreamingServer implements Runnable {
             if (data != null) {
                 data.close();
             }
-            client.close();
+            if (client != null) {
+                client.close();
+            }
         }
     }
 
@@ -392,8 +389,7 @@ public class VideoStreamingServer implements Runnable {
                         sb.append(' ');
                         break;
                     case '%':
-                        sb.append((char) Integer.parseInt(
-                                str.substring(i + 1, i + 3), 16));
+                        sb.append((char) Integer.parseInt(str.substring(i + 1, i + 3), 16));
                         i += 2;
                         break;
                     default:
