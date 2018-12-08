@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.start_button)
     Button startVideoBtn;
 
+    public static final String TAG = VideoActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
                 final String path = getFilesDir().getAbsolutePath() + "/" + fileName;
                 File file = new File(path);
                 if (file.exists()) {
-                    Log.d("MainActivity", "deleted");
+                    Log.i(TAG, "video deleted");
                     file.delete();
                     getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                    UiUtils.showSnackbar(MainActivity.this,"Video Deleted!!");
+                    UiUtils.showSnackbar(MainActivity.this, "Video Deleted!!");
 
-                }else{
-                    UiUtils.showSnackbar(MainActivity.this,"Video Not Available!!");
+                } else {
+                    UiUtils.showSnackbar(MainActivity.this, "Video Not Available!!");
                 }
             }
         });

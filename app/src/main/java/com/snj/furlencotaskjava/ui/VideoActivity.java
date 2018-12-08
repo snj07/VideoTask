@@ -27,7 +27,7 @@ public class VideoActivity extends AppCompatActivity {
     private String fileName;
     private Uri videoPath;
     private VideoDownloadAndPlayService videoService;
-    public String TAG = getClass().getSimpleName();
+    public static final String TAG = VideoActivity.class.getSimpleName();
     private static final int DELAY = 2000;
 
     @Override
@@ -62,7 +62,6 @@ public class VideoActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(VideoActivity.this, MainActivity.class));
                         finish();
                     }
                 }, VideoActivity.DELAY);
