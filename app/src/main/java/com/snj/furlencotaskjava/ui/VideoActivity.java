@@ -1,6 +1,5 @@
 package com.snj.furlencotaskjava.ui;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.snj.furlencotaskjava.MainActivity;
 import com.snj.furlencotaskjava.R;
 import com.snj.furlencotaskjava.network.VideoDownloadAndPlayService;
 import com.snj.furlencotaskjava.utils.Constants;
@@ -22,13 +20,13 @@ import java.io.File;
 public class VideoActivity extends AppCompatActivity {
 
 
+    public static final String TAG = VideoActivity.class.getSimpleName();
+    private static final int DELAY = 2000;
     private MediaController mediaController = null;
     private VideoView videoView;
     private String fileName;
     private Uri videoPath;
     private VideoDownloadAndPlayService videoService;
-    public static final String TAG = VideoActivity.class.getSimpleName();
-    private static final int DELAY = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
