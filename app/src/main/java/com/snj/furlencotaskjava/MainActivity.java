@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.delete_button)
     Button deleteBtn;
-    @BindView(R.id.button)
+    @BindView(R.id.start_button)
     Button startVideoBtn;
 
     @Override

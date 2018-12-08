@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * provides meta-data and access to a stream for resources on SD card.
+ * provides meta-data and access to a stream for resources on mobile.
  */
 public class ExternalDataSource {
 
