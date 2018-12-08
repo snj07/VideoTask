@@ -33,13 +33,16 @@ public class VideoDownloader {
     private static boolean isFileDownloaded;
 
     private String path;
-    private String url;
+    private String vUrl;
 
     public VideoDownloader(final String vUrl, final String path) {
         this.path = path;
-        this.url = vUrl;
+        this.vUrl = vUrl;
         readBytes = 0;
+        startDownload();
+    }
 
+    public void startDownload() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -101,7 +104,6 @@ public class VideoDownloader {
             }
         }).start();
     }
-
 
     public static boolean isDataReady() {
         dataStatus = -1;

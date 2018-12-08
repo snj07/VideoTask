@@ -378,9 +378,9 @@ public class VideoStreamingServer implements Runnable {
      * Decodes the percent encoding scheme.
      * For example: "an+example%20string" -> "an example string"
      */
-    private String decodePercent(String str) throws InterruptedException {
+    private String decodePercent(String str) {
         try {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < str.length(); i++) {
                 char c = str.charAt(i);
                 switch (c) {

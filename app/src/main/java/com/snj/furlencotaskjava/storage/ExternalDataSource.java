@@ -16,7 +16,7 @@ public class ExternalDataSource {
     private final File vFileResource;
     long contentLength;
     private FileInputStream inputStream;
-    private String TAG = getClass().getSimpleName();
+    private static final String TAG = ExternalDataSource.class.getSimpleName();
 
     public ExternalDataSource(File resource) {
         vFileResource = resource;
@@ -33,7 +33,7 @@ public class ExternalDataSource {
     /**
      * Creates and opens an input stream that returns the contents of the resource.
      */
-    public InputStream createInputStream() throws IOException {
+    public InputStream createInputStream() {
         getInputStream();
         return inputStream;
     }
