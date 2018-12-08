@@ -36,14 +36,13 @@ public class VideoStreamingServer implements Runnable {
 
     private boolean supportPlayWhileDownloading = false;
 
-    public int getPort() {
-        return port;
-    }
-
     public VideoStreamingServer(File file) {
         vFile = file;
     }
 
+    public int getPort() {
+        return port;
+    }
 
     /**
      * Prepare the server to start.

@@ -16,9 +16,7 @@ public class VideoDownloadAndPlayService {
     }
 
     public VideoDownloadAndPlayService startServer(final Activity activity, String videoUrl, String pathToSaveVideo, final String ipOfServer, final VideoStreamInterface callback) {
-//        Thread t  =new Thread();
-//        t.setPriority(Thread.MAX_PRIORITY);
-//        t.start();
+
         new VideoDownloader(videoUrl, pathToSaveVideo);
         server = new VideoStreamingServer(new File(pathToSaveVideo));
         server.setSupportPlayWhileDownloading(true);

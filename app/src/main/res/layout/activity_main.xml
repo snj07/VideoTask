@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="219dp"
-        android:text="Button" />
+        android:text="Start Video" />
 
     <Button
         android:id="@+id/delete_button"
@@ -22,5 +22,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="137dp"
-        android:text="Delete" />
+        android:text="Delete Video" />
 </RelativeLayout>

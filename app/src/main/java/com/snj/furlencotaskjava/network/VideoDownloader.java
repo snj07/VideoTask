@@ -1,11 +1,6 @@
 package com.snj.furlencotaskjava.network;
 
-import android.os.AsyncTask;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
-
-import com.snj.furlencotaskjava.MainActivity;
-import com.snj.furlencotaskjava.utils.Constants;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -105,67 +100,6 @@ public class VideoDownloader {
                 }
             }
         }).start();
-//        new AsyncTask<Void, Void, Void>() {
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                BufferedInputStream input = null;
-//                try {
-//                    final FileOutputStream out = new FileOutputStream(path);
-//
-//                    try {
-//                        URL url = new URL(vUrl);
-//
-//                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                        connection.setRequestMethod("GET");
-//                        connection.setConnectTimeout(0);
-//                        connection.connect();
-//                        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-//                            throw new RuntimeException("response is not HTTP_OK");
-//                        }
-//                        fileLength = connection.getContentLength();
-//
-//                        input = new BufferedInputStream(connection.getInputStream());
-//                        byte data[] = new byte[1024 * 50];
-//
-//                        int len;
-//
-//                        while ((len = input.read(data)) != -1) {
-//                            out.write(data, 0, len);
-//                            out.flush();
-//                            readBytes += len;
-//                        }
-//                        Log.w("download...", (readBytes / 1024) + "kb /" + (fileLength / 1024) + "kb");
-//
-//                        setFileDownloaded(true);
-//                    } catch (MalformedURLException e) {
-//                        Log.e(TAG, "Error in URL : " + path);
-//                    } catch (IOException e) {
-//                        Log.e(TAG, "IO Error  : " + e.getLocalizedMessage());
-//                        //delete file if not downloaded completely
-//                        File file = new File(path);
-//                        if (file.exists()) {
-//                            file.delete();
-//                        }
-//                    } finally {
-//                        if (readBytes < fileLength) {
-//                            File file = new File(path);
-//                            if (file.exists()) {
-//                                file.delete();
-//                            }
-//                        }
-//                        if (out != null) {
-//                            out.flush();
-//                            out.close();
-//                        }
-//                        if (input != null)
-//                            input.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//        }.execute();
     }
 
 

@@ -10,25 +10,34 @@ import android.widget.Button;
 
 import com.snj.furlencotaskjava.ui.VideoActivity;
 import com.snj.furlencotaskjava.utils.Constants;
+import com.snj.furlencotaskjava.utils.UiUtils;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.delete_button)
+    Button deleteBtn;
+    @BindView(R.id.button)
+    Button startVideoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        ButterKnife.bind(this);
+
+        startVideoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, VideoActivity.class));
             }
         });
 
-        Button delete = findViewById(R.id.delete_button);
-        delete.setOnClickListener(new View.OnClickListener() {
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String fileName = Constants.VIDEO_URL.substring(Constants.VIDEO_URL.lastIndexOf('/') + 1);
@@ -38,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "deleted");
                     file.delete();
                     getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                    UiUtils.showSnackbar(MainActivity.this,"Video Deleted!!");
 
+                }else{
+                    UiUtils.showSnackbar(MainActivity.this,"Video Not Available!!");
                 }
             }
         });
